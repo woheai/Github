@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f7f4">
+  <meta name="description" content="拾光旅行，发现世界的另一种打开方式。精选目的地、灵感路线与旅行故事。">
+  <title>拾光旅行 · 去看世界</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #202922;
+      --muted: #727970;
+      --paper: #f7f7f4;
+      --green: #355d45;
+      --lime: #d8eb86;
+      --line: #e6e8e1;
+      --serif: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: "DM Sans", "Noto Sans SC", sans-serif; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .site-header { height: 82px; padding: 0 7.1%; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 800; letter-spacing: -.6px; white-space: nowrap; }
+    .brand-mark { width: 31px; height: 31px; display: grid; place-items: center; color: var(--paper); background: var(--green); border-radius: 50% 50% 50% 8px; transform: rotate(-8deg); }
+    .brand-mark svg { transform: rotate(8deg); }
+    .main-nav { display: flex; gap: 38px; align-items: center; margin-left: 65px; }
+    .main-nav a { color: #656d65; font-size: 13px; transition: color .2s; }
+    .main-nav a:hover, .main-nav a.active { color: var(--ink); }
+    .header-actions { display: flex; align-items: center; gap: 18px; }
+    .icon-button { width: 38px; height: 38px; border: 0; display: grid; place-items: center; color: var(--ink); background: transparent; border-radius: 50%; }
+    .icon-button:hover { background: #eceee8; }
+    .login-link { font-size: 13px; font-weight: 600; }
+    .header-cta { padding: 12px 19px; border-radius: 99px; color: white; background: var(--green); font-size: 12px; font-weight: 600; transition: transform .2s, background .2s; }
+    .header-cta:hover { background: #274834; transform: translateY(-2px); }
+    .menu-toggle { display: none; }
+
+    .hero { min-height: 596px; position: relative; overflow: hidden; margin: 0 2.2%; border-radius: 24px; color: white; background: #365246; }
+    .hero-image { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(13, 31, 28, .65) 0%, rgba(13, 31, 28, .39) 42%, rgba(13, 31, 28, .05) 100%), url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2200&q=90") center 54% / cover; transform: scale(1.01); }
+    .hero-content { position: relative; z-index: 1; width: min(1100px, 86%); margin: 0 auto; padding-top: 106px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; margin: 0 0 22px; color: rgba(255,255,255,.83); font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+    .eyebrow::before { width: 22px; height: 1px; content: ""; background: var(--lime); }
+    .hero h1 { max-width: 620px; margin: 0; font-size: clamp(47px, 6.4vw, 78px); font-weight: 600; line-height: 1.18; letter-spacing: -3px; }
+    .hero h1 span { color: var(--lime); font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -2px; }
+    .hero-copy { margin: 21px 0 0; color: rgba(255,255,255,.8); font-size: 14px; line-height: 1.9; }
+    .hero-buttons { display: flex; gap: 12px; margin-top: 30px; }
+    .button-primary, .button-ghost { height: 47px; display: inline-flex; align-items: center; justify-content: center; gap: 13px; padding: 0 20px; border-radius: 99px; font-size: 12px; font-weight: 600; transition: transform .2s, background .2s; }
+    .button-primary { color: var(--ink); background: var(--lime); border: 1px solid var(--lime); }
+    .button-ghost { color: white; background: rgba(255,255,255,.11); border: 1px solid rgba(255,255,255,.46); backdrop-filter: blur(5px); }
+    .button-primary:hover, .button-ghost:hover { transform: translateY(-2px); }
+    .hero-note { position: absolute; z-index: 1; right: 47px; bottom: 37px; display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,.9); font-size: 11px; }
+    .avatar-stack { display: flex; padding-left: 5px; }
+    .avatar-stack img { width: 27px; height: 27px; margin-left: -6px; border: 2px solid rgba(255,255,255,.85); border-radius: 50%; object-fit: cover; }
+
+    .search-wrap { position: relative; z-index: 2; width: min(960px, 84%); margin: -38px auto 0; }
+    .search-panel { min-height: 93px; display: grid; grid-template-columns: 1.2fr 1fr 1fr auto; align-items: center; padding: 17px 19px 17px 30px; background: white; border: 1px solid rgba(32,41,34,.04); border-radius: 15px; box-shadow: 0 18px 50px rgba(32,41,34,.1); }
+    .search-field { min-width: 0; display: flex; align-items: center; gap: 12px; padding: 0 20px; border-right: 1px solid var(--line); }
+    .search-field:first-child { padding-left: 0; }
+    .field-icon { color: var(--green); flex: 0 0 auto; }
+    .field-copy { min-width: 0; }
+    .field-copy label { display: block; margin-bottom: 6px; color: #8a9088; font-size: 10px; }
+    .field-copy input, .field-copy select { width: 100%; padding: 0; color: var(--ink); border: 0; outline: 0; background: transparent; font-size: 12px; font-weight: 600; }
+    .field-copy input::placeholder { color: #555e55; opacity: 1; }
+    .field-copy select { appearance: none; cursor: pointer; }
+    .search-submit { width: 51px; height: 51px; margin-left: 19px; display: grid; place-items: center; color: white; border: 0; border-radius: 12px; background: var(--green); transition: background .2s, transform .2s; }
+    .search-submit:hover { background: #274834; transform: scale(1.04); }
+
+    .section { width: min(1100px, 86%); margin: 0 auto; }
+    .featured { padding-top: 94px; }
+    .section-top { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 27px; }
+    .section-kicker { margin: 0 0 8px; color: #829083; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .section-title { margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -.8px; }
+    .section-title span { color: #818a7e; font-family: var(--serif); font-size: 26px; font-style: italic; font-weight: 400; }
+    .text-link { display: inline-flex; align-items: center; gap: 9px; padding-bottom: 4px; color: var(--green); border-bottom: 1px solid #b6c4b6; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .destination-grid { display: grid; grid-template-columns: 1.15fr .85fr .85fr; gap: 17px; }
+    .destination-card { position: relative; min-height: 300px; overflow: hidden; border-radius: 13px; color: white; background: #819184; }
+    .destination-card img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; transition: transform .55s; }
+    .destination-card:hover img { transform: scale(1.055); }
+    .destination-card::after { position: absolute; inset: 0; content: ""; background: linear-gradient(180deg, rgba(0,0,0,.04) 25%, rgba(0,0,0,.54) 100%); }
+    .card-tag { position: absolute; z-index: 1; top: 15px; left: 15px; padding: 7px 11px; border: 1px solid rgba(255,255,255,.62); border-radius: 99px; background: rgba(255,255,255,.16); backdrop-filter: blur(8px); font-size: 9px; }
+    .card-details { position: absolute; z-index: 1; right: 19px; bottom: 17px; left: 19px; display: flex; align-items: end; justify-content: space-between; }
+    .card-details h3 { margin: 0 0 5px; font-size: 21px; font-weight: 600; }
+    .card-details p { margin: 0; color: rgba(255,255,255,.8); font-size: 10px; }
+    .card-arrow { width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.64); border-radius: 50%; transition: color .2s, background .2s; }
+    .destination-card:hover .card-arrow { color: var(--ink); background: white; }
+
+    .experience { padding: 105px 0 103px; }
+    .experience-panel { min-height: 283px; position: relative; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; border-radius: 16px; background: #e9eee5; }
+    .experience-copy { padding: 49px 30px 45px 55px; }
+    .experience-copy .section-kicker { color: #697e6e; }
+    .experience-copy h2 { max-width: 390px; margin: 0; font-size: 30px; font-weight: 600; line-height: 1.35; letter-spacing: -1px; }
+    .experience-copy p { max-width: 390px; margin: 14px 0 22px; color: #727b70; font-size: 12px; line-height: 1.9; }
+    .experience-copy .button-primary { height: 41px; padding: 0 17px; background: var(--green); border-color: var(--green); color: white; }
+    .experience-visual { position: relative; min-height: 283px; }
+    .experience-visual img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; object-position: center 55%; }
+    .floating-label { position: absolute; right: 25px; bottom: 20px; padding: 12px 16px; color: var(--ink); border-radius: 9px; background: rgba(255,255,255,.91); box-shadow: 0 6px 20px rgba(0,0,0,.1); font-size: 10px; }
+    .floating-label strong { display: block; margin-bottom: 4px; font-size: 12px; }
+
+    .newsletter { margin: 0 2.2%; padding: 47px 7%; display: flex; align-items: center; justify-content: space-between; gap: 28px; border-radius: 15px; background: #344f3e; color: white; }
+    .newsletter h2 { margin: 0 0 8px; font-size: 20px; font-weight: 600; }
+    .newsletter p { margin: 0; color: rgba(255,255,255,.7); font-size: 11px; }
+    .newsletter-form { width: min(380px, 100%); display: flex; gap: 8px; padding: 5px; border: 1px solid rgba(255,255,255,.27); border-radius: 99px; }
+    .newsletter-form input { flex: 1; min-width: 0; padding: 0 12px; color: white; outline: 0; border: 0; background: transparent; font-size: 11px; }
+    .newsletter-form input::placeholder { color: rgba(255,255,255,.62); }
+    .newsletter-form button { min-height: 37px; padding: 0 16px; color: var(--ink); border: 0; border-radius: 99px; background: var(--lime); font-size: 10px; font-weight: 700; }
+    footer { min-height: 105px; width: min(1100px, 86%); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; color: #7d857d; font-size: 10px; }
+    .footer-links { display: flex; gap: 23px; }
+    .footer-links a:hover { color: var(--green); }
+    .toast { position: fixed; z-index: 5; right: 25px; bottom: 25px; padding: 14px 18px; color: white; border-radius: 10px; background: var(--green); box-shadow: 0 10px 30px rgba(0,0,0,.18); font-size: 12px; opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .25s, transform .25s; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 850px) {
+      .site-header { height: 72px; padding: 0 5%; }
+      .main-nav { gap: 20px; margin-left: 10px; }
+      .header-actions { gap: 10px; }
+      .hero { min-height: 560px; margin: 0 1.5%; }
+      .hero-content { padding-top: 105px; }
+      .search-wrap { width: 90%; }
+      .search-panel { grid-template-columns: 1fr 1fr; gap: 17px 0; padding: 21px; }
+      .search-field { padding: 0 15px; }
+      .search-field:nth-child(2) { border-right: 0; }
+      .search-submit { margin: 0; }
+      .destination-grid { grid-template-columns: repeat(2, 1fr); }
+      .destination-card:first-child { grid-row: span 2; }
+      .destination-card { min-height: 240px; }
+      .destination-card:first-child { min-height: 497px; }
+      .section { width: 90%; }
+      .experience-copy { padding-left: 33px; }
+    }
+
+    @media (max-width: 620px) {
+      .site-header { position: relative; z-index: 4; }
+      .main-nav { display: none; position: absolute; top: 64px; right: 5%; left: 5%; padding: 18px; flex-direction: column; align-items: stretch; gap: 0; border: 1px solid var(--line); border-radius: 14px; background: white; box-shadow: 0 15px 40px rgba(32,41,34,.12); }
+      .main-nav.open { display: flex; }
+      .main-nav a { padding: 12px 6px; }
+      .header-actions { gap: 6px; }
+      .header-actions .login-link, .header-actions .header-cta { display: none; }
+      .menu-toggle { display: grid; }
+      .hero { min-height: 577px; border-radius: 17px; }
+      .hero-image { background-position: 58% center; }
+      .hero-content { width: 86%; padding-top: 94px; }
+      .hero h1 { font-size: clamp(44px, 12vw, 63px); letter-spacing: -2px; }
+      .hero-copy { max-width: 310px; font-size: 12px; }
+      .hero-note { right: 18px; bottom: 22px; font-size: 9px; }
+      .search-wrap { width: 88%; margin-top: -30px; }
+      .search-panel { grid-template-columns: 1fr 1fr; gap: 18px 0; padding: 20px 14px; border-radius: 13px; }
+      .search-field { gap: 8px; padding: 0 10px; }
+      .search-field:first-child { padding-left: 4px; }
+      .field-copy label { font-size: 9px; }
+      .field-copy input, .field-copy select { font-size: 10px; }
+      .search-submit { width: 43px; height: 43px; justify-self: end; }
+      .featured { padding-top: 69px; }
+      .section { width: 88%; }
+      .section-title { font-size: 23px; }
+      .section-title span { font-size: 21px; }
+      .section-top { align-items: end; }
+      .text-link { font-size: 9px; }
+      .destination-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .destination-card { min-height: 190px; }
+      .destination-card:first-child { min-height: 390px; }
+      .destination-card:first-child .card-details { left: 13px; right: 13px; }
+      .destination-card:first-child .card-details h3 { font-size: 18px; }
+      .card-details { right: 11px; bottom: 12px; left: 12px; }
+      .card-details h3 { font-size: 16px; }
+      .card-details p { font-size: 9px; }
+      .card-arrow { width: 29px; height: 29px; }
+      .card-tag { top: 10px; left: 10px; padding: 6px 8px; font-size: 8px; }
+      .experience { padding: 73px 0; }
+      .experience-panel { grid-template-columns: 1fr; }
+      .experience-copy { padding: 34px 27px 32px; }
+      .experience-copy h2 { font-size: 26px; }
+      .experience-visual { min-height: 220px; }
+      .newsletter { margin: 0 1.5%; padding: 34px 7%; align-items: stretch; flex-direction: column; gap: 20px; }
+      .newsletter h2 { font-size: 18px; }
+      footer { width: 88%; min-height: 120px; align-items: flex-start; justify-content: center; flex-direction: column; gap: 10px; }
+      .footer-links { gap: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="拾光旅行首页">
+      <span class="brand-mark" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M4 17.5 10.8 5l2.1 7.1 2.3-3.7L20 17.5H4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m8.1 17.5 4-6.4 1.7 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+      拾光旅行
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="主导航">
+      <a class="active" href="#top">首页</a>
+      <a href="#destinations">目的地</a>
+      <a href="#experiences">旅行灵感</a>
+      <a href="#stories">旅行故事</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button" type="button" aria-label="搜索" onclick="document.getElementById('destination').focus()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.7"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+      <a class="login-link" href="#newsletter">登录</a>
+      <a class="header-cta" href="#destinations">开始探索 <span aria-hidden="true">↗</span></a>
+      <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="打开导航菜单" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-image" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="eyebrow">THE WORLD IS YOURS TO FIND</p>
+        <h1 id="hero-title">把日子过成<br><span>一场远方。</span></h1>
+        <p class="hero-copy">越过熟悉的街道，去遇见山海、风和新的自己。<br>下一段故事，从你想去的地方开始。</p>
+        <div class="hero-buttons">
+          <a class="button-primary" href="#destinations">发现目的地 <span aria-hidden="true">↗</span></a>
+          <a class="button-ghost" href="#experiences">看看旅行灵感 <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="hero-note">
+        <div class="avatar-stack" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&h=80&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=80&h=80&q=80" alt="">
+        </div>
+        <span>和 12,000+ 位旅行者一起出发</span>
+      </div>
+    </section>
+
+    <div class="search-wrap">
+      <form class="search-panel" id="tripSearch">
+        <div class="search-field">
+          <svg class="field-icon" width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 10.2c0 5.2-8 11-8 11s-8-5.8-8-11a8 8 0 1 1 16 0Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.6"/></svg>
+          <div class="field-copy"><label for="destination">你想去哪里？</label><input id="destination" name="destination" type="text" placeholder="搜索目的地" autocomplete="off"></div>
+        </div>
+        <div class="search-field">
+          <svg class="field-icon" width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.5v4M16.5 3.5v4M3.5 10h17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <div class="field-copy"><label for="travelDate">出发时间</label><input id="travelDate" name="travelDate" type="date" aria-label="选择出发日期"></div>
+        </div>
+        <div class="search-field">
+          <svg class="field-icon" width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="8" r="3.2" stroke="currentColor" stroke-width="1.6"/><path d="M3 20v-1.4A4.6 4.6 0 0 1 7.6 14h2.8a4.6 4.6 0 0 1 4.6 4.6V20M16 5.2a3.2 3.2 0 0 1 0 6.2M17 14h.6a3.4 3.4 0 0 1 3.4 3.4V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <div class="field-copy"><label for="travelers">同行人数</label><select id="travelers" name="travelers"><option>2 位旅行者</option><option>1 位旅行者</option><option>3 位旅行者</option><option>4 位及以上</option></select></div>
+        </div>
+        <button class="search-submit" type="submit" aria-label="搜索旅行"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      </form>
+    </div>
+
+    <section class="section featured" id="destinations">
+      <div class="section-top">
+        <div><p class="section-kicker">PLACES TO GET LOST</p><h2 class="section-title">此刻，去这些地方 <span>看看</span></h2></div>
+        <a class="text-link" href="#experiences">浏览所有目的地 <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="destination-grid">
+        <a class="destination-card" href="#experiences" aria-label="探索云南大理">
+          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1000&q=85" alt="湖水与山峦环绕的宁静风景" loading="lazy">
+          <span class="card-tag">自然 · 慢生活</span>
+          <div class="card-details"><div><h3>云南 · 大理</h3><p>苍山洱海之间，住进温柔时光</p></div><span class="card-arrow" aria-hidden="true">↗</span></div>
+        </a>
+        <a class="destination-card" href="#experiences" aria-label="探索日本京都">
+          <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=850&q=85" alt="京都街巷与传统日式建筑" loading="lazy">
+          <span class="card-tag">人文 · 四季</span>
+          <div class="card-details"><div><h3>日本 · 京都</h3><p>在古都巷陌，遇见四季</p></div><span class="card-arrow" aria-hidden="true">↗</span></div>
+        </a>
+        <a class="destination-card" href="#experiences" aria-label="探索意大利多洛米蒂">
+          <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=850&q=85" alt="星空下的雪山山峰" loading="lazy">
+          <span class="card-tag">户外 · 山野</span>
+          <div class="card-details"><div><h3>意大利 · 多洛米蒂</h3><p>向山而行，收藏辽阔</p></div><span class="card-arrow" aria-hidden="true">↗</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section experience" id="experiences">
+      <div class="experience-panel">
+        <div class="experience-copy">
+          <p class="section-kicker">TRAVEL, YOUR WAY</p>
+          <h2>不赶路，只感受<br>沿途的每一刻。</h2>
+          <p>从一杯当地咖啡，到一条没有地图的小路。让旅程回到它本来的样子——自在、好奇，属于你。</p>
+          <a class="button-primary" href="#newsletter">找到你的旅行灵感 <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="experience-visual">
+          <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1200&q=85" alt="阳光洒落在森林与山谷间" loading="lazy">
+          <div class="floating-label"><strong>留一点时间给意外</strong>慢下来，风景才会赶上你。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="newsletter" id="newsletter">
+      <div><h2>下一站，灵感已送达。</h2><p>订阅拾光来信，收下目的地故事和旅途小惊喜。</p></div>
+      <form class="newsletter-form" id="newsletterForm"><input type="email" aria-label="邮箱地址" placeholder="输入你的邮箱地址" required><button type="submit">订阅来信 <span aria-hidden="true">→</span></button></form>
+    </section>
+  </main>
+
+  <footer id="stories">
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M4 17.5 10.8 5l2.1 7.1 2.3-3.7L20 17.5H4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>拾光旅行</a>
+    <span>© 2025 拾光旅行 · 把世界，走成自己的故事</span>
+    <div class="footer-links"><a href="#destinations">目的地</a><a href="#experiences">关于我们</a><a href="#newsletter">联系我们</a></div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    const toast = document.getElementById('toast');
+    let toastTimer;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    document.getElementById('tripSearch').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const destination = document.getElementById('destination').value.trim();
+      showToast(destination ? `正在为你寻找「${destination}」的旅行灵感` : '先告诉我们，你想去哪里？');
+      if (!destination) document.getElementById('destination').focus();
+    });
+
+    document.getElementById('newsletterForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      showToast('订阅成功！下一封拾光来信很快就到。');
+      event.currentTarget.reset();
+    });
+
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = mainNav.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    mainNav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+      mainNav.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }));
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  1
+</body>
+</html>
